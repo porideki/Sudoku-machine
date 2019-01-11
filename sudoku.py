@@ -24,10 +24,21 @@ class Sudoku(SearchProblem):
         return self.board
     
     def is_goal(self, board):
-        pass
+        return board.filled() and board.verify()
  
-    def next_states(self, board):
-        pass
+    def next_states(self, board):        
+        allowed_digits_matrix = [[0 for i in range(9)] for j in range(9)]
+        for x in range(0, 9):
+            for y in range(0, 9):
+                allowed_digits_matrix[x][y] = board.get_allowed_digits(x, y)
+
+        next_boards = []
+        for x in range(0, 9):
+            for y in range(0, 9):
+                for n in allowed_digits_matrix[x][y]:
+                    next_boards += [board.move(x, y, n)]
+
+        return next_boards
 
 
 if __name__ == '__main__':
